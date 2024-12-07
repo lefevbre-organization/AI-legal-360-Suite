@@ -1,0 +1,11 @@
+streamlit
+extra_streamlit_components
+streamlit_option_menu
+fpdf
+langchain
+langchain-community
+langchain-groq
+weaviate
+clarifai
+matplotlib 
+networkx
