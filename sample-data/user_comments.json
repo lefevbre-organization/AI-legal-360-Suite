@@ -1,52 +1,82 @@
 [
     {
-        "user_id": "U001",
-        "question": "How do you prefer to access information online?",
-        "answer": "I usually rely on visual content and clean interfaces for easy navigation."
-    },
-    {
-        "user_id": "U002",
-        "question": "What challenges do you face when completing online forms?",
-        "answer": "I struggle with typing due to a physical disability, making it difficult to express my thoughts effectively."
+        "user_id": "U000",
+        "question": "What systems do you currently use? (Email, calendar, CRM, document management)",
+        "answer": "We use Gmail for email, Google Calendar for scheduling, and a shared drive for document management. We don’t have a CRM system in place."
     },
     {
         "user_id": "U001",
-        "question": "What features do you find most helpful in a mobile application?",
-        "answer": "I appreciate apps with intuitive designs that offer customizable options to suit my preferences."
+        "question": "How do you handle case assignments among team members?",
+        "answer": "We assign cases manually through email and shared spreadsheets, which sometimes leads to confusion and overlapping tasks."
     },
     {
         "user_id": "U002",
-        "question": "How do you feel about voice recognition technology for inputting text?",
-        "answer": "I find it extremely beneficial as it allows me to bypass typing challenges and communicate more efficiently."
+        "question": "How do you follow up on pending legal tasks or filings?",
+        "answer": "We keep track of tasks using manual to-do lists and periodic team meetings, which can be time-consuming and prone to oversight."
     },
     {
-        "user_id": "U001",
-        "question": "What motivates you to participate in online surveys or feedback forms?",
-        "answer": "I am more inclined to provide feedback when the process is user-friendly and doesn't require extensive typing."
+        "user_id": "U003",
+        "question": "What is your current method for generating legal documents or contracts?",
+        "answer": "We use standard Word templates that we fill out manually. Customizing documents for each case takes considerable time."
     },
     {
-        "user_id": "U002",
-        "question": "In your opinion, what improvements could be made to make online surveys more accessible?",
-        "answer": "Including voice input options and simplified interfaces would greatly enhance accessibility for users with typing difficulties."
+        "user_id": "U004",
+        "question": "How do you monitor team productivity and workload distribution?",
+        "answer": "We don’t have a formal system for monitoring workload. We rely on weekly meetings to assess progress and reassign tasks if needed."
     },
     {
-        "user_id": "U001",
-        "question": "How do you adapt to new technologies introduced in your daily routine?",
-        "answer": "I prefer technologies that seamlessly integrate into my workflow and enhance efficiency without a steep learning curve."
+        "user_id": "U005",
+        "question": "How do you track expenses and client billing?",
+        "answer": "We use Excel spreadsheets to track expenses and prepare invoices manually at the end of each billing cycle."
     },
     {
-        "user_id": "U002",
-        "question": "Would you be more likely to participate in surveys if they offered alternative input methods?",
-        "answer": "Absolutely, having options like voice input would make it much easier for me to engage in online surveys."
+        "user_id": "U006",
+        "question": "What tools do you use for online legal research and case law references?",
+        "answer": "We use free online legal databases and government websites, but searching for relevant case laws can be time-consuming."
     },
     {
-        "user_id": "U001",
-        "question": "What concerns do you have regarding the privacy and security of your data when using online tools?",
-        "answer": "I prioritize platforms that ensure data protection measures and transparent privacy policies."
+        "user_id": "U007",
+        "question": "How do you manage court filing deadlines and document submissions?",
+        "answer": "We rely on manual reminders and keep filing dates in a shared calendar, which isn’t always reliable."
     },
     {
-        "user_id": "U002",
-        "question": "How do you typically navigate through complex online interfaces?",
-        "answer": "I often find it challenging to navigate and interact with interfaces that require extensive typing or precise mouse movements."
+        "user_id": "U008",
+        "question": "What challenges do you face in managing client relationships?",
+        "answer": "Maintaining consistent communication and providing timely updates is difficult due to the lack of an integrated client management system."
+    },
+    {
+        "user_id": "U009",
+        "question": "How do you manage case updates and progress tracking?",
+        "answer": "We discuss case updates during team meetings, but tracking individual case progress in real time is challenging without a centralized system."
+    },
+    {
+        "user_id": "U010",
+        "question": "What process do you follow for document signing and approval?",
+        "answer": "We print documents for signing and scanning, which delays approvals and increases administrative workload."
+    },
+    {
+        "user_id": "U011",
+        "question": "How do you handle urgent legal matters after office hours?",
+        "answer": "We use personal phones and email, but the lack of an official system makes after-hours communication disorganized."
+    },
+    {
+        "user_id": "U012",
+        "question": "What are your expectations for automation in your legal practice?",
+        "answer": "We expect automation to reduce repetitive tasks, improve deadline tracking, and simplify client management."
+    },
+    {
+        "user_id": "U013",
+        "question": "How do you ensure accuracy when filing legal documents?",
+        "answer": "We manually review every document, which is time-consuming and leaves room for human error."
+    },
+    {
+        "user_id": "U014",
+        "question": "How do you archive closed cases and old client files?",
+        "answer": "We store closed case files in physical archives and a basic digital folder system, but finding old files is difficult without a search function."
+    },
+    {
+        "user_id": "U015",
+        "question": "What would improve your firm’s daily workflow the most?",
+        "answer": "Centralized task management, deadline reminders, and automated document generation would save significant time and reduce errors."
     }
 ]

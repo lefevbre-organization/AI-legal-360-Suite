@@ -281,7 +281,7 @@ if st.session_state['generated'] == 0:
                         value=f"{st.session_state['q6_default_val']}")
     q7 = col2.text_area("Q7: What are the main challenges of the firm (deadline management, communication, client acquisition)?",
                         value=f"{st.session_state['q7_default_val']}")
-    q8_file = col2.file_uploader("Q8: Upload any available user interview")
+    q8_file = col2.file_uploader("Q8: Upload any available interview")
     st.session_state["user_inputs"] = [q1, q2, q3, q4, q5, q6, q7, q8_file]
 
     
