@@ -34,7 +34,7 @@ st.set_page_config(
     initial_sidebar_state="auto"
 )
 
-# Agregar Google Fonts (Poppins)
+# Agregar Google Fonts (Poppins) y aplicar los estilos personalizados
 st.markdown(
     """
     <style>
@@ -51,10 +51,11 @@ st.markdown(
     }
 
     .st-do {
-    background-color: #f8f9fa !important;
+        background-color: #f8f9fa !important;
     }
+
     .st-e5 {
-    background-color: #f8f9fa !important;
+        background-color: #f8f9fa !important;
     }
 
     /* Sobrescribir los estilos específicos de los elementos generados por Emotion y Streamlit */
@@ -72,6 +73,12 @@ st.markdown(
     .stMarkdown h6 {
         font-family: 'Poppins', sans-serif !important;
     }
+
+    /* Encabezados en azul */
+    h1, h2, h3, h4, h5, h6 {
+        color: #001978;  /* Azul (ajustar según el tema) */
+    }
+
     </style>
     """, 
     unsafe_allow_html=True
@@ -119,7 +126,14 @@ nav_emoji = {
 DT_STAGES = ["Assessment", "Simulation", "Evaluation", "TEST"]
 
 ##########
-st.markdown("### Suite :rainbow[AI] Legal 360º")
+# st.markdown("### Suite :rainbow[AI] Legal 360º")
+# Cargar el archivo SVG desde tu sistema local
+with open("assets/package_blue.svg", "r") as file:
+    icon_svg = file.read()
+
+# Título con SVG al lado (sin usar CSS directamente)
+st.markdown(f"### {icon_svg} Suite :rainbow[AI] Legal 360º ", unsafe_allow_html=True)
+
 st.caption("An Agile Partner for AI-Driven Transformation")
 
 # testing_mode = st.toggle('Testing Mode')
