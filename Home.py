@@ -209,32 +209,32 @@ if st.session_state['generated'] == 0:
             for i in range(1, 8):
                 st.session_state[f'q{i}_default_val'] = ""
 
-        btn_generate = colC.button("Generate Now")
-        if btn_generate & (not st.session_state['autofilled']):
-            colA.error("Please click 'Autofill'")
-        elif btn_generate & st.session_state['autofilled']:
+        # btn_generate = colC.button("Generate Now")
+        # if btn_generate & (not st.session_state['autofilled']):
+        #     colA.error("Please click 'Autofill'")
+        # elif btn_generate & st.session_state['autofilled']:
 
-            with st.spinner("Checking your answers..."):
-                failed = 0
-                for q_num in range(1, 8):
-                    failed += nsfw(st.session_state[f'q{q_num}_default_val'])
+        #     with st.spinner("Checking your answers..."):
+        #         failed = 0
+        #         for q_num in range(1, 8):
+        #             failed += nsfw(st.session_state[f'q{q_num}_default_val'])
 
-            if failed == 0:
-                with st.spinner('Starting up my engines. Please give me about 3 mins to think about your project...'):
+        #     if failed == 0:
+        #         with st.spinner('Starting up my engines. Please give me about 3 mins to think about your project...'):
 
-                    with open("sample-data/user_comments.json", 'r') as json_file:
-                        q8_file = json.load(json_file)
+        #             with open("sample-data/user_comments.json", 'r') as json_file:
+        #                 q8_file = json.load(json_file)
 
-                    st.session_state["user_inputs"] = [st.session_state['q1_default_val'],
-                                                       st.session_state['q2_default_val'],
-                                                       st.session_state['q3_default_val'], 
-                                                       st.session_state['q4_default_val'], 
-                                                       st.session_state['q5_default_val'], 
-                                                       st.session_state['q6_default_val'], 
-                                                       st.session_state['q7_default_val']
-                                                       , q8_file]
-                    load_dt_tool()
-                    render_dt_page()
+        #             st.session_state["user_inputs"] = [st.session_state['q1_default_val'],
+        #                                                st.session_state['q2_default_val'],
+        #                                                st.session_state['q3_default_val'], 
+        #                                                st.session_state['q4_default_val'], 
+        #                                                st.session_state['q5_default_val'], 
+        #                                                st.session_state['q6_default_val'], 
+        #                                                st.session_state['q7_default_val']
+        #                                                , q8_file]
+        #             load_dt_tool()
+        #             render_dt_page()
 
 
     # Form
@@ -258,23 +258,25 @@ if st.session_state['generated'] == 0:
     st.session_state["user_inputs"] = [q1, q2, q3, q4, q5, q6, q7, q8_file]
 
     
-    st.divider()
-    pressed = st.button("Generate")
-    if pressed & (q1 == "" or q2 == "" or q3 =="" or q4 ==""):
-            st.error("Please complete fill up q1 to q4.")
-    elif pressed:
-        with st.spinner("Checking your answers..."):
+    # st.divider()     
+    # pressed = st.button("Generate")
+    # if pressed & (q1 == "" or q2 == "" or q3 =="" or q4 ==""):
+    #         st.error("Please complete fill up q1 to q4.")
+    # elif pressed:
+    #     with st.spinner("Checking your answers..."):
 
-            failed = 0
+    #         failed = 0
 
-            for inputs in st.session_state["user_inputs"][:7]:
-                failed += nsfw(inputs)
+    #         for inputs in st.session_state["user_inputs"][:7]:
+    #             failed += nsfw(inputs)
 
-        if failed == 0:
-            with st.spinner('Starting up my enginges. Please give me about 3 mins to think about your project...'):
-                load_dt_tool()
-                render_dt_page()
-                st.balloons()
+    #     if failed == 0:
+    #         with st.spinner('Starting up my enginges. Please give me about 3 mins to think about your project...'):
+    #             load_dt_tool()
+    #             render_dt_page()
+    #             st.balloons()
+
+    
 
 elif st.session_state['generated'] == 1:
     # tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["🤔 Guiding Questions  ", "🚀 Sample User Journey  ", "💬 Mock User Interviews  ", "📄 Download Report  ", "✍️ Your Input  ", "🔁 Restart"])  

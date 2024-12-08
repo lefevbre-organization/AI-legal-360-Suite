@@ -98,7 +98,7 @@ with col1:
 
 # Historia con Suite AI Legal 360° (derecha)
 with col2:
-    st.markdown("##### Flujo de trabajo Usando la Suite AI Legal 360°")
+    st.markdown("##### Usando la Suite AI Legal 360°")
     st.write("""
     **María García**, al buscar información sobre negligencia médica, encuentra el perfil del despacho, que utiliza la Suite AI Legal 360° para gestionar cada parte del proceso de manera eficiente.
 

@@ -11,6 +11,56 @@ api_key_default = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MjY4ZDg5My1j
 # # Interfaz de Streamlit
 # st.title("Lead Nurturing - AI 360º")
 
+# Agregar Google Fonts (Poppins) y aplicar los estilos personalizados
+st.markdown(
+    """
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    
+    /* Aplicar la fuente Poppins a todo el cuerpo */
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* Aplicar la fuente Poppins específicamente a los párrafos */
+    p {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .st-do {
+        background-color: #f8f9fa !important;
+    }
+
+    .st-e5 {
+        background-color: #f8f9fa !important;
+    }
+
+    /* Sobrescribir los estilos específicos de los elementos generados por Emotion y Streamlit */
+    .stApp, 
+    .st-emotion-cache, 
+    .st-emotion-cache-global, 
+    .css-1v0yizf, 
+    .stMarkdown,
+    .stMarkdown p, 
+    .stMarkdown h1, 
+    .stMarkdown h2, 
+    .stMarkdown h3, 
+    .stMarkdown h4, 
+    .stMarkdown h5, 
+    .stMarkdown h6 {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    /* Encabezados en azul */
+    h1, h2, h3, h4, h5, h6 {
+        color: #001978;  /* Azul (ajustar según el tema) */
+    }
+
+    </style>
+    """, 
+    unsafe_allow_html=True
+)
+
 # Descripción inicial
 st.subheader("Lead Nurturing")
 st.write("""
