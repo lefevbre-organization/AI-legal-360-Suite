@@ -1,5 +1,8 @@
 import streamlit as st
 
+
+st.set_page_config(layout="wide")
+
 # Función para mostrar etiqueta con ahorro de tiempo y pasos
 def mostrar_etiqueta(tiempo_ahorrado, pasos_eliminados, detalles_pasos):
     st.markdown(
