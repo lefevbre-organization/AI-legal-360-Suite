@@ -1,0 +1,14 @@
+digraph "Workflow de n8n" {
+	graph [fontcolor="#2D3436" fontname="Sans-Serif" fontsize=15 label="Workflow de n8n" nodesep=0.60 pad=2.0 rankdir=LR ranksep=0.75 splines=ortho]
+	node [fixedsize=true fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13 height=1.4 imagescale=true labelloc=b shape=box style=rounded width=1.4]
+	edge [color="#7B8894"]
+	"5d9d9427dd814c3d9879e91ba3744d7d" [label=Webhook height=1.9 image="d:\AI-legal-360-Suite\.venv\Lib\site-packages\resources/onprem/compute\server.png" shape=none]
+	ca83461e199248e58858782e2d712bfb [label="AI Agent" height=1.9 image="d:\AI-legal-360-Suite\.venv\Lib\site-packages\resources/onprem/compute\server.png" shape=none]
+	"552173bf767b46be850c63d29b2a1355" [label="Evolution API" height=1.9 image="d:\AI-legal-360-Suite\.venv\Lib\site-packages\resources/onprem/compute\server.png" shape=none]
+	"1d492528321443e79cc54d258f30d09c" [label="Google Gemini Chat Model" height=1.9 image="d:\AI-legal-360-Suite\.venv\Lib\site-packages\resources/onprem/compute\server.png" shape=none]
+	"20342e0e12484327966a98e11baf6574" [label="Window Buffer Memory" height=1.9 image="d:\AI-legal-360-Suite\.venv\Lib\site-packages\resources/onprem/compute\server.png" shape=none]
+	"5d9d9427dd814c3d9879e91ba3744d7d" -> ca83461e199248e58858782e2d712bfb [dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	ca83461e199248e58858782e2d712bfb -> "552173bf767b46be850c63d29b2a1355" [dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	"1d492528321443e79cc54d258f30d09c" -> ca83461e199248e58858782e2d712bfb [dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+	"20342e0e12484327966a98e11baf6574" -> ca83461e199248e58858782e2d712bfb [dir=forward fontcolor="#2D3436" fontname="Sans-Serif" fontsize=13]
+}

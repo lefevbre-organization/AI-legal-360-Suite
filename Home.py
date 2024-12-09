@@ -258,7 +258,8 @@ if st.session_state['generated'] == 0:
     st.session_state["user_inputs"] = [q1, q2, q3, q4, q5, q6, q7, q8_file]
 
     
-    # st.divider()     
+    st.divider() 
+    st.button("Generate")   
     # pressed = st.button("Generate")
     # if pressed & (q1 == "" or q2 == "" or q3 =="" or q4 ==""):
     #         st.error("Please complete fill up q1 to q4.")
