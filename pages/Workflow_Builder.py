@@ -61,7 +61,7 @@ st.markdown(
 )
 
 # Descripción inicial
-st.subheader("Lead Nurturing")
+st.subheader("Ejemplo de creación de servicio Lead Nurturing")
 st.write("""
 Este proceso es parte de la Suite AI 360º, que gestiona el flujo de leads para clientes legales. 
 En este flujo, gestionaremos el proceso de comunicación con los leads, utilizando WhatsApp y notificaciones móviles mediante la API de Ntfy.
