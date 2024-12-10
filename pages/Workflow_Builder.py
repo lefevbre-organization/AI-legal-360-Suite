@@ -1,15 +1,14 @@
+
 import streamlit as st
 import requests
 import json
 from datetime import datetime
-import matplotlib.pyplot as plt
-import networkx as nx
+import graphviz
 
 # API Key predefinida (oculta)
 api_key_default = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MjY4ZDg5My1jMWUzLTRkMDktOGQ1OC1lMzBiNTg5MmQ1NDAiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzMzNDE4Nzg0fQ.bzkVpmCpAcuTh3lYalIG2reEtjxzCakHVQHFAWNuiWA"
 
 # # Interfaz de Streamlit
-# st.title("Lead Nurturing - AI 360º")
 
 # Agregar Google Fonts (Poppins) y aplicar los estilos personalizados
 st.markdown(
@@ -270,53 +269,29 @@ if activar_notificacion:
 # activar_notificacion = st.checkbox("¿Activar notificación móvil?", value=False)
 
 # Crear el flujo de trabajo básico sin Push Notifications
-G = nx.DiGraph()
-G.add_edges_from([("Lead", "AI Agent"), 
-                 ("AI Agent", "LLM Model"), 
-                 ("AI Agent", "Whatsapp API"),
-                 ("Whatsapp API", "Lead")])
+dot = graphviz.Digraph()
+
+# Definir los nodos y conexiones
+dot.node('Lead', 'Lead')
+dot.node('AI Agent', 'AI Agent')
+dot.node('LLM Model', 'LLM Model')
+dot.node('Whatsapp API', 'Whatsapp API')
+
+dot.edge('Lead', 'AI Agent')
+dot.edge('AI Agent', 'LLM Model')
+dot.edge('AI Agent', 'Whatsapp API')
+dot.edge('Whatsapp API', 'Lead')
 
 # Agregar Push Notifications si se activa la opción
 if activar_notificacion:
-    G.add_edge("AI Agent", "Push Notifications")
-    G.add_edge("Push Notifications", "User")
-
-# Crear figura y ejes
-fig, ax = plt.subplots(figsize=(10, 6))
-
-# Dibujar el grafo
-pos = nx.spring_layout(G)
-nx.draw(G, pos, with_labels=True, node_size=1000, node_color="#f26d0078", font_size=12, font_weight="bold", edge_color="gray", ax=ax)
+    dot.node('Push Notifications', 'Push Notifications')
+    dot.node('User', 'User')
+    dot.edge('AI Agent', 'Push Notifications')
+    dot.edge('Push Notifications', 'User')
 
 # Mostrar el gráfico en Streamlit
-st.pyplot(fig)
+st.graphviz_chart(dot)
 
-
-# st.markdown("""
-#     <style>
-#         .stButton > button {
-#             background-color: #F26D00;  /* Color naranja */
-#             color: white;  /* Color de texto blanco */
-#             font-size: 20px;  /* Aumentar tamaño de la fuente */
-#             font-weight: bold;
-#             border-radius: 10px;  /* Bordes redondeados */
-#             padding: 15px 30px;  /* Más espacio dentro del botón */
-#             width: 250px;  /* Ancho del botón */
-#             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-#             transition: background-color 0.3s ease, transform 0.3s ease, font-size 0.3s ease;
-#             line-height: 1.5;  /* Ajustar el espaciado vertical del texto */
-#         }
-#         .stButton > button:hover {
-#             background-color: #D85F00;  /* Naranja más oscuro al pasar el ratón */
-#             transform: scale(1.1);  /* Aumentar tamaño del botón cuando pasa el ratón */
-#             font-size: 22px;  /* Aumentar el tamaño de la fuente al hacer hover */
-#             color: white !important;  /* Mantener el color de texto blanco en el hover */
-#         }
-        
-#     </style>
-# """, unsafe_allow_html=True)
-
-# Botón de acción
 # Botón de acción
 if st.button("Insertar Workflow"):
     if api_key_default and nombre_workflow:
@@ -330,12 +305,13 @@ if st.button("Insertar Workflow"):
             
             # Verificar si la respuesta fue exitosa
             if response.status_code == 200:
-                workflow_id = response.json().get("id")
-                link = f"http://localhost:5678/workflow/{workflow_id}"
-                st.success(f"Workflow creado con éxito: [Abrir en n8n]({link})")
+                workflow_id = response.json().get("id")  # Obtenemos el ID del workflow creado
+                link = f"http://localhost:5678/workflow/{workflow_id}"  # Creamos el link para acceder al workflow
+                st.success(f"Workflow creado con éxito: [Abrir en n8n]({link})")  # Mostrar el link para visitar el workflow
+                st.write(f"ID del Workflow: {workflow_id}")  # Mostrar el ID del workflow
             else:
-                # En caso de que no sea exitoso, mostrar un mensaje de error
                 st.error(f"Error al crear el workflow: {response.text}")
+
         
         except requests.exceptions.RequestException as e:
             # Si ocurre un error en la solicitud, mostrar un mensaje controlado
@@ -343,3 +319,47 @@ if st.button("Insertar Workflow"):
     else:
         st.warning("Por favor, introduce el nombre del workflow.")
 
+
+
+
+url = "http://localhost:5678/api/v1/workflows"
+
+# Headers para la API
+headers = {
+    'Content-Type': 'application/json',
+    'X-N8N-API-KEY': api_key_default
+}
+
+# Interfaz de Streamlit
+st.title("Gestión de Workflow")
+workflow_id = st.text_input("ID del Workflow", "")
+
+# Botón para activar el workflow
+if st.button("Activar Workflow"):
+    if workflow_id:
+        response = requests.post(
+            f"{url}/{workflow_id}/activate",
+            headers=headers
+        )
+        if response.status_code == 200:
+            st.success("Workflow activado con éxito.")
+        else:
+            st.error(f"Error al activar: {response.text}")
+    else:
+        st.warning("Por favor, introduce un ID de Workflow válido.")
+
+# Botón para desactivar el workflow
+if st.button("Desactivar Workflow"):
+    if workflow_id:
+        response = requests.post(
+            f"{url}/{workflow_id}/deactivate",
+            headers=headers
+        )
+        if response.status_code == 200:
+            st.success("Workflow desactivado con éxito.")
+        else:
+            st.error(f"Error al desactivar: {response.text}")
+    else:
+        st.warning("Por favor, introduce un ID de Workflow válido.")
+
+        
