@@ -10,3 +10,5 @@ clarifai
 matplotlib 
 networkx
 graphviz
+bs4
+openpyxl
