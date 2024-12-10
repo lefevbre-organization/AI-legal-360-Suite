@@ -9,3 +9,4 @@ weaviate
 clarifai
 matplotlib 
 networkx
+graphviz
