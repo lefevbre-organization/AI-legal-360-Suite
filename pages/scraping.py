@@ -1,57 +1,24 @@
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
-from openpyxl import load_workbook, Workbook
+from openpyxl import load_workbook
 import io
+import logging
+from time import sleep
 
+# Configurar logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Agregar Google Fonts (Poppins) y aplicar los estilos personalizados
+# Agregar Google Fonts y aplicar estilos personalizados
 st.markdown(
     """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-    
-    /* Aplicar la fuente Poppins a todo el cuerpo */
-    body {
-        font-family: 'Poppins', sans-serif;
-    }
-
-    /* Aplicar la fuente Poppins específicamente a los párrafos */
-    p {
-        font-family: 'Poppins', sans-serif !important;
-    }
-
-    .st-do {
-        background-color: #f8f9fa !important;
-    }
-
-    .st-e5 {
-        background-color: #f8f9fa !important;
-    }
-
-    /* Sobrescribir los estilos específicos de los elementos generados por Emotion y Streamlit */
-    .stApp, 
-    .st-emotion-cache, 
-    .st-emotion-cache-global, 
-    .css-1v0yizf, 
-    .stMarkdown,
-    .stMarkdown p, 
-    .stMarkdown h1, 
-    .stMarkdown h2, 
-    .stMarkdown h3, 
-    .stMarkdown h4, 
-    .stMarkdown h5, 
-    .stMarkdown h6 {
-        font-family: 'Poppins', sans-serif !important;
-    }
-
-    /* Encabezados en azul */
-    h1, h2, h3, h4, h5, h6 {
-        color: #001978;  /* Azul (ajustar según el tema) */
-    }
-
+    body { font-family: 'Poppins', sans-serif; }
+    h1, h2, h3, h4, h5, h6 { color: #001978; }
+    .log-text { white-space: pre-wrap; word-wrap: break-word; }
     </style>
-    """, 
+    """,
     unsafe_allow_html=True
 )
 
@@ -68,14 +35,35 @@ uploaded_file = st.file_uploader("Sube tu archivo Excel", type=["xlsx"])
 # Configuración de columna
 selected_column = st.text_input("Nombre de la columna de links", "WEBSITE")
 
+# Headers para simular un navegador
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+}
+
+def make_request(url, retries=3, delay=5):
+    session = requests.Session()
+    session.headers.update(headers)
+    for _ in range(retries):
+        try:
+            response = session.get(url, timeout=10, verify=False)
+            response.raise_for_status()
+            return response
+        except requests.exceptions.RequestException as e:
+            logging.error(f"Error al acceder a {url}: {e}")
+            sleep(delay)
+            delay *= 2
+    return None
+
 # Botón de ejecución
+log_display = st.empty()
+
+st.write("---")
+
 if st.button("Ejecutar búsqueda") and uploaded_file and selected_column:
     try:
-        # Cargar archivo
         workbook = load_workbook(uploaded_file)
         sheet = workbook.active
 
-        # Buscar la columna seleccionada
         website_column_index = None
         for cell in sheet[1]:
             if cell.value == selected_column:
@@ -86,56 +74,51 @@ if st.button("Ejecutar búsqueda") and uploaded_file and selected_column:
             st.error(f"Columna '{selected_column}' no encontrada.")
             st.stop()
 
-        # Añadir columna de resultados
         result_col_index = sheet.max_column + 1
         sheet.cell(row=1, column=result_col_index, value="Resultado")
 
-        # Lista de logs en tiempo real
-        logs = st.empty()
+        log_entries = []
 
-        # Procesar cada URL
-        for row in range(2, sheet.max_row + 1):
+        for i, row in enumerate(range(2, sheet.max_row + 1), start=1):
             url = sheet.cell(row=row, column=website_column_index).value
             if url:
                 if not url.startswith("http"):
                     url = f"https://{url}"
                 try:
-                    response = requests.get(url, timeout=10)
-                    response.raise_for_status()
-                    soup = BeautifulSoup(response.content, "html.parser")
-                    text = soup.get_text().lower()
+                    response = make_request(url)
+                    if response:
+                        soup = BeautifulSoup(response.content, "html.parser")
+                        text = soup.get_text().lower()
 
-                    # Buscar palabras clave
-                    found = False
-                    for keyword in keywords:
-                        if keyword in text:
-                            link = soup.find('a', string=lambda text: text and keyword in text.lower())
-                            link_href = link['href'] if link else 'Link no encontrado'
-                            sheet.cell(row=row, column=result_col_index, value=link_href)
-                            logs.info(f"✔️ Palabra clave '{keyword}' encontrada en {url}")
-                            found = True
-                            break
+                        found = False
+                        for keyword in keywords:
+                            if keyword in text:
+                                link = soup.find('a', string=lambda text: text and keyword in text.lower())
+                                link_href = link['href'] if link else 'Palabra clave encontrada - Link no encontrado'
+                                sheet.cell(row=row, column=result_col_index, value=link_href)
+                                log_entries.append(f"{i}: ✔️ Palabra clave '{keyword}' encontrada en {url}")
+                                found = True
+                                break
 
-                    if not found:
-                        sheet.cell(row=row, column=result_col_index, value="Palabras clave no encontradas")
-                        logs.warning(f"⚠️ No se encontraron palabras clave en {url}")
-
-                except requests.exceptions.RequestException as e:
-                    sheet.cell(row=row, column=result_col_index, value=f"Error al acceder: {e}")
-                    logs.error(f"❌ Error al acceder a {url}: {e}")
+                        if not found:
+                            sheet.cell(row=row, column=result_col_index, value="Palabras clave no encontradas")
+                            log_entries.append(f"{i}: ⚠️ No se encontraron palabras clave en {url}")
+                    else:
+                        sheet.cell(row=row, column=result_col_index, value="Error al acceder después de reintentos")
+                        log_entries.append(f"{i}: ❌ Error al acceder a {url}")
                 except Exception as e:
                     sheet.cell(row=row, column=result_col_index, value=f"Error inesperado: {e}")
-                    logs.error(f"❌ Error inesperado en {url}: {e}")
+                    log_entries.append(f"{i}: ❌ Error inesperado en {url}: {e}")
             else:
                 sheet.cell(row=row, column=result_col_index, value="URL vacía")
-                logs.warning(f"⚠️ URL vacía en la fila {row}")
+                log_entries.append(f"{i}: ⚠️ URL vacía en la fila {row}")
 
-        # Guardar archivo en memoria
+            log_display.markdown('<div class="log-text">' + '\n'.join(log_entries[-10:]) + '</div>', unsafe_allow_html=True)
+
         output = io.BytesIO()
         workbook.save(output)
         output.seek(0)
 
-        # Descargar archivo procesado
         st.success("Archivo procesado con éxito.")
         st.download_button(
             label="Descargar archivo procesado",
