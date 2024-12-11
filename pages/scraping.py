@@ -26,7 +26,14 @@ st.markdown(
 st.markdown("#### Buscador de Palabras Clave en Sitios Web")
 
 # Entrada de palabras clave
-keywords_input = st.text_input("Palabras clave (separadas por comas)", "denuncias, canal de denuncias, canal, canal ético, compliance")
+keywords_input = st.text_area("Palabras clave (separadas por comas)", 
+    "denuncia, denuncias, canal de denuncias, canal, canal ético, compliance, "
+    "Channel, ethics, complaint, canaldenuncias, canaletico, etico, ético, "
+    "código de conducta, code of conduct, whistleblower channel, Reporting channel, "
+    "Whistleblowing channel, canal de ética, ética, Complaints Channel, "
+    "Sistema Interno de Información, Canal del informante, Canal de información, "
+    "Canal de comunicación interno, General conditions of sale")
+
 keywords = [kw.strip().lower() for kw in keywords_input.split(",")]
 
 # Subir archivo Excel
@@ -94,7 +101,7 @@ if st.button("Ejecutar búsqueda") and uploaded_file and selected_column:
                         for keyword in keywords:
                             if keyword in text:
                                 link = soup.find('a', string=lambda text: text and keyword in text.lower())
-                                link_href = link['href'] if link else 'Palabra clave encontrada - Link no encontrado'
+                                link_href = link['href'] if link else f"Palabra clave encontrada: '{keyword}' - Link no encontrado"
                                 sheet.cell(row=row, column=result_col_index, value=link_href)
                                 log_entries.append(f"{i}: ✔️ Palabra clave '{keyword}' encontrada en {url}")
                                 found = True
